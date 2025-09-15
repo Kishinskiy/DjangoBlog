@@ -1,0 +1,85 @@
+{% for article in articles %}
+<article
+  class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 fade-in"
+>
+  {% if article.featured_image %}
+  <div class="aspect-video bg-gray-200">
+    <img
+      src="{{ article.featured_image.url }}"
+      alt="{{ article.title }}"
+      class="w-full h-full object-cover"
+    />
+  </div>
+  {% endif %}
+  <div class="p-6">
+    <div class="flex items-center justify-between mb-4">
+      <span
+        class="bg-primary text-white px-3 py-1 rounded-full text-xs font-medium"
+      >
+        {{ article.category.name }}
+      </span>
+      <span class="text-sm text-gray-500">
+        {{ article.created_at|date:"d.m.Y" }}
+      </span>
+    </div>
+
+    <h2 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+      <a
+        href="{% url 'article_detail' article.slug %}"
+        hx-get="{% url 'article_detail' article.slug %}"
+        hx-target="#main-content"
+        hx-push-url="true"
+        class="hover:text-primary transition-colors"
+      >
+        {{ article.title }}
+      </a>
+    </h2>
+
+    {% if article.excerpt %}
+    <p class="text-gray-600 mb-4 line-clamp-3">{{ article.excerpt }}</p>
+    {% endif %}
+
+    <div class="flex items-center justify-between">
+      <div class="flex items-center text-sm text-gray-500">
+        <svg
+          class="w-4 h-4 mr-1"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          ></path>
+        </svg>
+        {{ article.author.username }}
+      </div>
+
+      <a
+        href="{% url 'article_detail' article.slug %}"
+        hx-get="{% url 'article_detail' article.slug %}"
+        hx-target="#main-content"
+        hx-push-url="true"
+        class="inline-flex items-center text-primary hover:text-secondary font-medium text-sm"
+      >
+        Читать
+        <svg
+          class="ml-1 w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          ></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>
+{% endfor %}

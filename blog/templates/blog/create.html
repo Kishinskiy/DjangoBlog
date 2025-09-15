@@ -1,0 +1,99 @@
+{% extends "layout/basic.html" %} {% block title %}Написать статью{% endblock %}
+{% block content %}
+<div class="bg-white rounded-lg shadow-sm p-8">
+  <h1 class="text-3xl font-bold text-gray-900 mb-8">Написать новую статью</h1>
+
+  <form method="post" enctype="multipart/form-data" class="space-y-6">
+    {% csrf_token %}
+
+    <div>
+      <label
+        for="{{ form.title.id_for_label }}"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
+        Заголовок статьи
+      </label>
+      {{ form.title }} {% if form.title.errors %}
+      <div class="mt-1 text-sm text-red-600">{{ form.title.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label
+        for="{{ form.slug.id_for_label }}"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
+        URL статьи (slug)
+      </label>
+      {{ form.slug }} {% if form.slug.errors %}
+      <div class="mt-1 text-sm text-red-600">{{ form.slug.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label
+        for="{{ form.category.id_for_label }}"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
+        Категория
+      </label>
+      {{ form.category }} {% if form.category.errors %}
+      <div class="mt-1 text-sm text-red-600">{{ form.category.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label
+        for="{{ form.excerpt.id_for_label }}"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
+        Краткое описание
+      </label>
+      {{ form.excerpt }} {% if form.excerpt.errors %}
+      <div class="mt-1 text-sm text-red-600">{{ form.excerpt.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label
+        for="{{ form.featured_image.id_for_label }}"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
+        Изображение статьи
+      </label>
+      {{ form.featured_image }} {% if form.featured_image.errors %}
+      <div class="mt-1 text-sm text-red-600">
+        {{ form.featured_image.errors }}
+      </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <label
+        for="{{ form.content.id_for_label }}"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
+        Содержание статьи
+      </label>
+      {{ form.content }} {% if form.content.errors %}
+      <div class="mt-1 text-sm text-red-600">{{ form.content.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <button
+        type="submit"
+        class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-secondary transition-colors font-medium"
+      >
+        Опубликовать статью
+      </button>
+      <a
+        href="{% url 'index' %}"
+        class="text-gray-600 hover:text-gray-900 font-medium"
+      >
+        Отмена
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

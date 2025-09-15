@@ -1,0 +1,120 @@
+{% extends "layout/basic.html" %} {% block title %}{{ category.name }}{% endblock %} 
+{% block content %}
+<div class="mb-8">
+  <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ category.name }}</h1>
+  {% if category.description %}
+  <p class="text-gray-600">{{ category.description }}</p>
+  {% endif %}
+</div>
+
+<div class="space-y-8">
+  {% for article in articles %}
+  <article
+    class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+  >
+    {% if article.featured_image %}
+    <div class="aspect-video bg-gray-200">
+      <img
+        src="{{ article.featured_image.url }}"
+        alt="{{ article.title }}"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    {% endif %}
+    <div class="p-6">
+      <div class="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+        <span class="bg-primary text-white px-2 py-1 rounded-full text-xs"
+          >{{ article.category.name }}</span
+        >
+        <span>{{ article.created_at|date:"d.m.Y" }}</span>
+        <span>Автор: {{ article.author.username }}</span>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-3">
+        <a
+          href="{% url 'article_detail' article.slug %}"
+          class="hover:text-primary transition-colors"
+        >
+          {{ article.title }}
+        </a>
+      </h2>
+      {% if article.excerpt %}
+      <p class="text-gray-600 mb-4">{{ article.excerpt }}</p>
+      {% endif %}
+      <a
+        href="{% url 'article_detail' article.slug %}"
+        class="inline-flex items-center text-primary hover:text-secondary font-medium"
+      >
+        Читать далее
+        <svg
+          class="ml-1 w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          ></path>
+        </svg>
+      </a>
+    </div>
+  </article>
+  {% empty %}
+  <div class="text-center py-12">
+    <div class="text-gray-400 mb-4">
+      <svg
+        class="mx-auto h-12 w-12"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        ></path>
+      </svg>
+    </div>
+    <h3 class="text-lg font-medium text-gray-900 mb-2">
+      В этой категории пока нет статей
+    </h3>
+    <p class="text-gray-500">
+      Попробуйте другую категорию или напишите первую статью!
+    </p>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if is_paginated %}
+<div class="mt-8 flex justify-center">
+  <nav class="flex space-x-2">
+    {% if page_obj.has_previous %}
+    <a
+      href="?page={{ page_obj.previous_page_number }}"
+      class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+    >
+      Предыдущая
+    </a>
+    {% endif %}
+
+    <span
+      class="px-3 py-2 text-sm font-medium text-gray-700 bg-primary text-white border border-primary rounded-md"
+    >
+      {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a
+      href="?page={{ page_obj.next_page_number }}"
+      class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+    >
+      Следующая
+    </a>
+    {% endif %}
+  </nav>
+</div>
+{% endif %} {% endblock %}
