@@ -1,2 +1,90 @@
-{% extends "layout/basic.html" %} {% block title %}{{ article.title }}{% endblock %} 
-{% block content %} {% include "blog/partials/article_detail.html" %} {% endblock %}
+<article class="bg-white rounded-lg shadow-sm overflow-hidden fade-in">
+  {% if article.featured_image %}
+  <div class="aspect-video bg-gray-200">
+    <img
+      src="{{ article.featured_image.url }}"
+      alt="{{ article.title }}"
+      class="w-full h-full object-cover"
+    />
+  </div>
+  {% endif %}
+
+  <div class="p-8">
+    <div class="flex items-center space-x-4 text-sm text-gray-500 mb-6">
+      <span
+        class="bg-primary text-white px-3 py-1 rounded-full text-xs font-medium"
+        >{{ article.category.name }}</span
+      >
+      <span>{{ article.created_at|date:"d.m.Y в H:i" }}</span>
+      <span>Автор: {{ article.author.username }}</span>
+      {% if article.updated_at != article.created_at %}
+      <span class="text-xs"
+        >(обновлено {{ article.updated_at|date:"d.m.Y" }})</span
+      >
+      {% endif %}
+    </div>
+
+    <h1 class="text-4xl font-bold text-gray-900 mb-6">{{ article.title }}</h1>
+
+    {% if article.excerpt %}
+    <div class="bg-gray-50 border-l-4 border-primary p-4 mb-8">
+      <p class="text-lg text-gray-700 italic">{{ article.excerpt }}</p>
+    </div>
+    {% endif %}
+
+    <div class="prose prose-lg max-w-none">
+      {{ article.content|linebreaks }}
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <a
+            href="{% url 'category_list' article.category.slug %}"
+            hx-get="{% url 'category_list' article.category.slug %}"
+            hx-target="#main-content"
+            hx-push-url="true"
+            class="inline-flex items-center text-primary hover:text-secondary font-medium"
+          >
+            <svg
+              class="mr-2 w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+              ></path>
+            </svg>
+            {{ article.category.name }}
+          </a>
+        </div>
+        <a
+          href="{% url 'index' %}"
+          hx-get="{% url 'index' %}"
+          hx-target="#main-content"
+          hx-push-url="true"
+          class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium"
+        >
+          <svg
+            class="mr-2 w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+          Назад к статьям
+        </a>
+      </div>
+    </div>
+  </div>
+</article>

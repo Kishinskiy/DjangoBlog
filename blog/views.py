@@ -28,8 +28,8 @@ class ArticleListView(ListView):
     def get_template_names(self):
         if self.request.headers.get('HX-Request'):
             if self.request.GET.get('page'):
-                return ['blog/partials/article_cards.html']
-            return ['blog/partials/article_list.html']
+                return ['blog/article_cards.html']
+            return ['blog/article_list.html']
         return ['blog/index.html']
 
 
@@ -45,7 +45,7 @@ class ArticleDetailView(DetailView):
 
     def get_template_names(self):
         if self.request.headers.get('HX-Request'):
-            return ['blog/partials/article_detail.html']
+            return ['blog/article_detail.html']
         return ['blog/article_detail.html']
 
 
@@ -69,7 +69,7 @@ class CategoryListView(ListView):
 
     def get_template_names(self):
         if self.request.headers.get('HX-Request'):
-            return ['blog/partials/category_list.html']
+            return ['blog/category_list.html']
         return ['blog/category_list.html']
 
 
@@ -104,7 +104,7 @@ def search_articles(request):
     }
 
     if request.headers.get('HX-Request'):
-        return render(request, 'blog/partials/search_results.html', context)
+        return render(request, 'blog/search_results.html', context)
     return render(request, 'blog/search.html', context)
 
 
@@ -118,4 +118,4 @@ def get_stats(request):
         'total_categories': total_categories
     }
 
-    return render(request, 'blog/partials/stats.html', context)
+    return render(request, 'blog/stats.html', context)
