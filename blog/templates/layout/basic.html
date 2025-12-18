@@ -52,19 +52,29 @@
             >
               Поиск
             </button>
+          {% if user.is_authenticated %}
             <a
               href="{% url 'index' %}"
               hx-get="{% url 'index' %}"
               hx-target="#main-content"
               hx-push-url="true"
               class="text-gray-700 hover:text-primary font-medium transition-colors"
-              >Вход</a
+              >Профиль</a
             >
             <a
               href="{% url 'create' %}"
               class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition-colors"
               >Написать статью</a
             >
+          {% else %}
+            <a
+              href="{% url 'index' %}"
+              hx-get="{% url 'index' %}"
+              hx-target="#main-content"
+              hx-push-url="true"
+              class="text-gray-700 hover:text-primary font-medium transition-colors"
+              >Вход</a>
+          {% endif %}
           </nav>
         </div>
       </div>
