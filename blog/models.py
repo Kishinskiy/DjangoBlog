@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -16,6 +18,8 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
         ordering = ['name']
 
+def article_upload_path(instance, filename):
+    return os.path.join('articles', str(instance.author.username), filename)
 
 class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
@@ -33,7 +37,10 @@ class Article(models.Model):
     is_published = models.BooleanField(
         default=True, verbose_name='Опубликовано')
     featured_image = models.ImageField(
-        upload_to='articles/', blank=True, null=True, verbose_name='Изображение')
+        upload_to=article_upload_path,
+        blank=True,
+        null=True,
+        verbose_name='Изображение')
 
     def __str__(self):
         return self.title
